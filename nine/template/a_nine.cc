@@ -14,7 +14,7 @@ int main()  {
     std::vector<float> ub={1,10,100}, lb={-1,-10,-100};
 
     // Allocate space for our population
-    int popnum=50;  //  Number of members in population
+    int popnum=16;  //  Number of members in population
     std::vector<std::vector<float> > pop(popnum);
     
     // Initialize population
@@ -71,6 +71,11 @@ int main()  {
 
         // Set the last value
         R[R.size()-1]=nums[0];
+
+        printf("\nRanks:\n");
+        for (int r: R)
+            printf("%i\n", r);
+        printf("\n");
 
         // Compute Fitness
         double S=2; std::vector<float> F(popnum);

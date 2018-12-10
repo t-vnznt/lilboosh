@@ -3,55 +3,59 @@
 #include <vector>
 #include <random>
 #include "Individual.h"
+#include "Selection.h"
+// #include "SelectionMethods.h"
 
 class GeneticAlgorithm {
-  private:
   public:
-    int numParents;
-    int numGenerations;
-    int populationSize;
-    std::vector<Individual> population;
+    int numberOfParents;
+    int numberOfGenerations;
     
+    std::vector<Individual> population;
+    std::vector<int> parents;
+
+    void rankSelection();
+    void rouletteSelection();
+
     GeneticAlgorithm(int, int, int);
-    void initializePopulation();
-    void report();
-    std::vector<float> process( float (*f)(std::vector<float>));
+    
 };
 
-GeneticAlgorithm::GeneticAlgorithm(int p, int g, int s) {
-  this->numParents = p;
-  this->numGenerations = g;
-  this->populationSize = s;
-  initializePopulation();
-}
-
-void GeneticAlgorithm::initializePopulation() {
-  this->population.resize(this->populationSize);
-  for (int i = 0; i < this->populationSize; i++) {
-    Individual ind;
-    this->population[i] = ind;
+GeneticAlgorithm::GeneticAlgorithm(int numParents, int numGenerations, int populationSize) {
+  this->numberOfParents = numParents;
+  this->numberOfGenerations = numGenerations;
+  this->population.resize(populationSize);
+  for (int i=0; i<populationSize; i++) {
+    Individual individual;
+    this->population[i] = individual;
   }
 }
 
-void GeneticAlgorithm::report() {
-  int i = 1;
-  for (Individual ind:this->population) {
-    int j = 0;
-    std::cout << "Individual " << i << ":\n";
-    std::cout << "  Parameters:\n";
-    for (float p:ind.parameters) {  
-      std::cout <<"    " << j << ": " << p << "\n";
-      j++;
-    }
-    i++;
-  }
-}
+void GeneticAlgorithm::rankSelection() {
 
-std::vector<float> GeneticAlgorithm::process(float (*f)(std::vector<float>)) {
-  std::vector<float> o(this->populationSize);
-  for (int i = 0; i < this->populationSize; i++) {
-    o[i] = (*f)(this->population[i].parameters);
-  }
-
-  return o;
+  Selection* rank = new Rank();
+  
 }
+// void GeneticAlgorithm::process(float (*f)(std::vector<float>), RouletteWheel& roulette) {
+//   int populationSize = this->population.size();
+//   std::vector<float> o(populationSize);
+//   for (int i=0; i<populationSize; i++) {
+//     o[i]=(*f)(this->population[i].genes);
+//   }
+  
+//   roulette.rankPopulation(o, this->population);
+
+//   int iter = 0;
+//   for (auto r : roulette.ranks) {
+//     this->population[r].fitness = roulette.calculateFitness(iter, r, this->population);
+//     ++iter;
+//   }
+
+//   roulette.selectParents(this->population);
+  
+
+  // for (int i = 0; i < roulette.ranks.size(); i++)
+  //   printf("%i\n", roulette.ranks[i]); 
+  // for ( int r: roulette.ranks)
+  //   printf("%i\n", r); 
+// }
